@@ -11,10 +11,12 @@
             <h5 class="card-title">{{ post.title }}</h5>
             <h6 class="card-subtitle mb-2 text-body-secondary">{{ post.get_category_display }} - {{ post.created }}</h6>
             <p class="card-text">{{ post.content }}</p>
-            <a href="{% url 'post-update' post.id %}"class="btn btn-warning">Редактировать</a>              
-            <a href="{% url 'post-delete' post.id %}"class="btn btn-primary">Удалить</a>       
+            <a href="{% url 'post-update' post.id %}" class="btn btn-warning">Редактировать</a>
+            <form action="{% url 'post-delete' post.id %}" method="get">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Удалить</button>
+            </form>
 
         </div>
     </div><br>
-
 {% endblock %}
