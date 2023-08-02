@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block title %}
 {{ post.title }}
 {% endblock %}
 
 {% block content %}
-<div style="width: 35rem">
-    <h3>Вы точно хотите удалить пост?</h3>
+    <h1>Вы действительно хотите удалить пост - {{ post.title }}?</h1>
             <form action="{% url 'post-delete' post.id %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Удалить</button>
+                <button type="submit" class="btn btn-warning">Удалить</button>
             </form>
-</div><br>
+    <a href="{% url 'post-detail' post.id %}"><button type="submit" class="btn btn-primary">Нет</button></a>
+
+
 {% endblock %}

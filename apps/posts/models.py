@@ -9,12 +9,46 @@ CATEGORY_CHOICES = (
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=200)
-    content = models.TextField()
-    created = models.DateTimeField(auto_now=True)
-    category = models.CharField(choices=CATEGORY_CHOICES, max_length=3, default="SOC")
-    status = models.BooleanField(default=True)
-    cover = models.ImageField(default="image.jpg", upload_to="uploads/posts", blank=True)
+    title = models.CharField(max_length=200, verbose_name="Заголовок")
+    content = models.TextField(verbose_name="Содержание")
+    created = models.DateTimeField(auto_now=True, verbose_name="Дата создания")
+    category = models.CharField(choices=CATEGORY_CHOICES, max_length=3, default="SOC", verbose_name="Категория")
+    status = models.BooleanField(default=True, verbose_name="Статус публикации")
+    cover = models.ImageField(default="image.jpg", upload_to="uploads/posts", blank=True, verbose_name="Обложка")
 
     def __str__(self):
         return f"{self.title} - {self.created}"
+
+    class Meta:
+        verbose_name = "Запись"
+        verbose_name_plural = "Записи"
+
+
+class Comment(models.Model):
+    name = models.CharField(max_length=16, verbose_name="Имя комментатора")
+    text = models.CharField(max_length=300, verbose_name="Текст комментария")
+    created = models.DateTimeField(auto_now=True, verbose_name="Дата создания")
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="post_comment", verbose_name="Запись")
+
+    def __str__(self):
+        return f"{self.name} - {self.post.title}"
+
+    class Meta:
+        verbose_name = "Комментарий"
+        verbose_name_plural = "Комментарии"
+
+
+class Make(models.Model):
+    zagolovok = models.CharField(max_length=100, verbose_name="Заголовок")
+    text = models.CharField(max_length=400, verbose_name="Текст")
+    created = models.DateTimeField(auto_now=True, verbose_name="Дата создания")
+    comment = models.CharField(max_length=800, verbose_name="Комментарий")
+    status = models.BooleanField(default=False)
+    post = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="post_comment", verbose_name="Пост")
+
+    def __str__(self):
+        return f"{self.zagolovok} - {self.post.title}"
+    
+    class Meta:
+        verbose_name = "Заголовок"
+        verbose_name_plural = "Заголовки"

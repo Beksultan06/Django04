@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse
 
-from posts.models import Post
+from apps.posts.models import Post
 
 
 class PostsTestCase(TestCase):
