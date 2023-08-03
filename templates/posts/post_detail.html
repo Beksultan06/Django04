@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% crispy form %}
 {% block title %}
     {{ post.title }}
 {% endblock %}
@@ -23,28 +24,11 @@
 
     <form action="" method="post" class="mx-auto" style="width: 35rem;">
     {% csrf_token %}
-        {% comment %} {{ formcrispy }}<br> {% endcomment %}
+        {{ form|crispy }}
+        <br>
     <button type="submit" class="btn btn-primary">Оставить комментарий</button>
-
     </form>
 <hr>
-    <form action="" method="post">
-        {% csrf_token %}
-        <div class="mb-3 mx-auto" style="width: 35rem;">
-            <label for="exampleInputEmail1" class="form-label">Имя</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name">
-
-        </div>
-        <div class="mb-3 mx-auto" style="width: 35rem;">
-            <label for="exampleInputPassword1" class="form-label">Текст</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" name="text"><br>
-            <button type="submit" class="btn btn-primary">Оставить комментарий</button>
-        </div>
-        <hr>
-
-    </form>
-
-
 
     {% for comment in post.post_comment.all %}
         <div class="card mx-auto" style="width: 35rem;">
@@ -54,38 +38,6 @@
             <div class="card-body">
                 <h5 class="card-title">{{ comment.name }}</h5>
                 <p class="card-text">{{ comment.text }}</p>
-
-            </div>
-        </div><br>
-        <hr>
-    {% endfor %}
-
-
-    <form action="" method="post">
-        {% csrf_token %}
-        <div class="mb-3 mx-auto" style="width: 35rem;">
-            <label for="exampleInputEmail1" class="form-label">USER</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name">
-
-        </div>
-        <div class="mb-3 mx-auto" style="width: 35rem;">
-            <label for="exampleInputPassword1" class="form-label">Заголовок</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" name="text"><br>
-            <button type="submit" class="btn btn-primary">Оставить</button>
-        </div>
-        <hr>
-
-    </form>
-
-
-    {% for post in post.post_post.all %}
-        <div class="card mx-auto" style="width: 35rem;">
-            <div class="card-header">
-                {{ post.created }}
-            </div>
-            <div class="card-body">
-                <h5 class="card-title">{{ post.zagolovok }}</h5>
-                <p class="card-text">{{ post.text }}</p>
 
             </div>
         </div><br>

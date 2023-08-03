@@ -36,19 +36,3 @@ class Comment(models.Model):
     class Meta:
         verbose_name = "Комментарий"
         verbose_name_plural = "Комментарии"
-
-
-class Make(models.Model):
-    zagolovok = models.CharField(max_length=100, verbose_name="Заголовок")
-    text = models.CharField(max_length=400, verbose_name="Текст")
-    created = models.DateTimeField(auto_now=True, verbose_name="Дата создания")
-    comment = models.CharField(max_length=800, verbose_name="Комментарий")
-    status = models.BooleanField(default=False)
-    post = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name="post_comment", verbose_name="Пост")
-
-    def __str__(self):
-        return f"{self.zagolovok} - {self.post.title}"
-    
-    class Meta:
-        verbose_name = "Заголовок"
-        verbose_name_plural = "Заголовки"

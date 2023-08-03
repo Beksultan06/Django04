@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from apps.posts.forms import CommentForm
+from apps.posts.forms import CommentForm, PostForm
 from apps.posts.models import Post, Comment
 from django.views import generic
+
 
 
 # Class Retrieve LIST
@@ -41,7 +42,7 @@ class PostDetailView(generic.DetailView):
 class PostCreateView(generic.CreateView):
     model = Post
     template_name = "posts/post_create.html"
-    fields = ["title", "content", "status", "category", "cover"]
+    form_class = PostForm
     success_url = reverse_lazy("index-page")
 
 
@@ -55,7 +56,7 @@ class PostDeleteView(generic.DeleteView):
 class PostUpdateView(generic.UpdateView):
     model = Post
     template_name = "posts/post_update.html"
-    fields = ["title", "content", "status", "category", "cover"]
+    form_class = PostForm
     success_url = reverse_lazy("index-page")
 
 
