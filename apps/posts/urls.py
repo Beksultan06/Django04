@@ -14,4 +14,7 @@ urlpatterns = [
     path("post/update/<int:pk>", views.PostUpdateView.as_view(), name="post-update"),
     # path("post/update/<int:pk>", views.post_update, name="post-update"),
     path("post/create", views.PostCreateView.as_view(), name="post-create"),
+    path("api/apps.posts/list", views.PostListAPIView.as_view(), name="api-post-list"),
+    path("api/apps.posts/<int:id>", views.PostDetailAPIView.as_view(), name="api-post-detail"),
 ]
+

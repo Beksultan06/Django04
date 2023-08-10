@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     "apps.users",
     "apps.examples",
     "crispy_forms",
+    "rest_framework",
+    "django_filters",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -143,3 +146,6 @@ CRISPY_TEMPLATE_PACK = "bootstrap4"
 LOGIN_REDIRECT_URL = "/"
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EamailBackend"
+
+AUTH_USER_MODEL = "users.GeekUser"
+

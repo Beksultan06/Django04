@@ -7,7 +7,7 @@ from apps.posts.models import Post, Comment
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     list_display = ["title", "created", "status", "category"]
-    list_filter = ["status", "category"]
+    list_filter = ["title", "status", "category"]
     list_editable = ["status"]
 
 

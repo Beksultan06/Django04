@@ -1,9 +1,22 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from apps.posts.forms import CommentForm, PostForm
 from apps.posts.models import Post, Comment
 from django.views import generic
+from rest_framework import generics
+from apps.posts.serializers import PostListSerializer, PostDetailSerializer
 
+
+class PostListAPIView(generics.ListAPIView):
+    serializer_class = PostListSerializer
+    queryset = Post.objects.filter(status=True)
+
+
+class PostDetailAPIView(generics.RetrieveAPIView):
+    serializer_class = PostDetailSerializer
+    queryset = Post.objects.filter(status=True)
+    lookup_field = "id"
 
 
 # Class Retrieve LIST
@@ -19,9 +32,7 @@ class PostDetailView(generic.DetailView):
     model = Post
     template_name = "posts/post_detail.html"
     context_object_name = "post"
-    
-    def make(self, request, pk):
-        return redirect("post-detail", pk)
+    extra_context = {"form": CommentForm()}
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -39,7 +50,7 @@ class PostDetailView(generic.DetailView):
 
 
 # Class Create
-class PostCreateView(generic.CreateView):
+class PostCreateView(LoginRequiredMixin, generic.CreateView):
     model = Post
     template_name = "posts/post_create.html"
     form_class = PostForm
@@ -53,7 +64,7 @@ class PostDeleteView(generic.DeleteView):
 
 
 # Class Update
-class PostUpdateView(generic.UpdateView):
+class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Post
     template_name = "posts/post_update.html"
     form_class = PostForm

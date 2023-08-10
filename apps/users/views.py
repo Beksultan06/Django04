@@ -1,32 +1,46 @@
 from django.shortcuts import render
-from apps.users.forms import UserReqistrationForm
-from django.views import View
+from django.views import generic
+from django.urls import reverse_lazy
+from apps.users.serializers import UserSerializer, UserDetailSerializer
+from rest_framework import generics
+from apps.users.models import GeekUser
+from apps.users.forms import UserRegistrationForm
 
-# def reqister(request):
-#     if request.method == "Post":
-#         user_form = UserReqistrationFrom(request.Post)
+
+class UserListAPIView(generics.ListAPIView):
+    queryset = GeekUser.objects.all()
+    serializer_class = UserSerializer
+
+class UserDetailAPIView(generics.RetrieveAPIView):
+    queryset = GeekUser.objects.all()
+    serializer_class = UserDetailSerializer
+    lookup_field = "id"
+
+
+# def register(request):
+
+#     if request.method == "POST":
+#         user_form = UserRegistrationForm(request.POST)
 #         if user_form.is_valid():
 #             new_user = user_form.save(commit=False)
-#             new_user.set_password(user_form.clean_password2())
+#             new_user.set_password(user_form.cleaned_data["password"])
 #             new_user.save()
 #             return render(request, "registration/register_done.html", {"user": new_user})
-
 #     else:
-#         user_from = UserReqistrationFrom()
+#         user_form = UserRegistrationForm()
+
 #     return render(request, "registration/register.html", {"form": user_form})
 
+class UserRegisterView(generic.CreateView):
+    template_name = 'registration/register_done.html'
+    success_url = reverse_lazy('login')
+    form_class = UserRegistrationForm
 
-
-class RegisterView(View):
-    def get(self, request):
-        user_form = UserReqistrationForm()
-        return render(request, "registration/register.html", {"form": user_form})
-
-    def post(self, request):
-        user_form = UserReqistrationForm(request.POST)
+    def post(self, request, *args, **kwargs):
+        user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             new_user = user_form.save(commit=False)
-            new_user.set_password(user_form.cleaned_data.get('password2'))
+            new_user.set_password(user_form.cleaned_data["password"])
             new_user.save()
             return render(request, "registration/register_done.html", {"user": new_user})
         return render(request, "registration/register.html", {"form": user_form})
